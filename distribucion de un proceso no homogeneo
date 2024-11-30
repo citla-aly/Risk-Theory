@@ -1,0 +1,15 @@
+
+In[1]:= \[Lambda][t_, c_] = c*Tanh[t]
+Out[1]= c Tanh[t]
+In[2]:= F[t_, T_, c_] =
+1 - Exp[-Integrate[\[Lambda][\[Tau] + T, c], {\[Tau], 0, t},
+Assumptions -> {T \[Element] \[DoubleStruckCapitalR],
+t \[Element] \[DoubleStruckCapitalR], T >= 0, t >= 0}]]
+Out[2]= 1 - (Cosh[t + T] Sech[T])^-c
+In[3]:= f[t_, T_, c_] = D[F[t, T, c], t]
+Out[3]= c Sech[T] (Cosh[t + T] Sech[T])^(-1 - c) Sinh[t + T]
+In[4]:= Q[p_, T_, c_] =
+Function[y,
+t /. Solve[F[t, T, c] == y, t, Reals,
+Assumptions -> {0 < y < 1, c > 0}][[2, 1]]][p]
+Out[4]= -T + ArcCosh[(1 - p)^(-1/c) Cosh[T]]
